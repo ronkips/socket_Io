@@ -1,57 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import io from "socket.io-client";
 import "./Message.css";
+import Chat from "./Chat";
 
 const socket = io("http://localhost:5000");
 const Message = () => {
-  const [messages, setMessages] = useState([]);
-  const [messageInput, setMessageInput] = useState("");
-  const me = "hello there";
-  // Listen for incoming chat messages
-  useEffect(() => {
-    socket.on("connection", (msg) => {
-      console.log(`Received message: ${msg}`);
-      setMessages((prevMessages) => [...prevMessages]);
-    });
-  }, []);
-  socket.on("message", (data) => {
-    document.querySelector(me).innerHTML = data;
-    console.log(`Received message: ${data}`);
-  });
-  // Send a new chat message to the server
-  const handleSendMessage = () => {
-    if (messageInput !== "") {
-      socket.emit("message", messageInput);
-      socket.on("message", "");
-      setMessageInput("");
+  const [username, setUsername] = useState("");
+  const [room, setRoom] = useState("");
+  const [showChat, setShowChat] = useState(false);
+  const joinRoom = () => {
+    if (username !== "" && room !== "") {
+      socket.emit("join_room", room);
+      setShowChat(true);
     }
   };
 
   return (
-    <div>
-      <div className="message-list">
-        <h1>hello</h1>
-        {messages.map((msg) => (
-          <div key={msg.timestamp} className="message">
-            <div className="message-sender">{msg.sender}</div>
-            <div className="message-content">{msg.message}</div>
-            <div className="message-timestamp">
-              {new Date(msg.timestamp).toLocaleString()}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="message-input">
-        <input
-          className="message-input-field"
-          type="text"
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
-        />
-        <button className="message-send-button" onClick={handleSendMessage}>
-          Send
-        </button>
-      </div>
+    <div className="App">
+      {!showChat ? (
+        <div className="joinChatContainer">
+          <h3>Join a chat</h3>
+          <input
+            type="text"
+            placeholder="Hillary..."
+            // value={username}
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Room id..."
+            // value={room}
+            onChange={(e) => {
+              setRoom(e.target.value);
+            }}
+          />
+          <button onClick={joinRoom}>Join room</button>
+        </div>
+      ) : (
+        <Chat socket={socket} username={username} room={room} />
+      )}
     </div>
   );
 };
