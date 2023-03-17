@@ -23,7 +23,7 @@
   height: 50px;
   margin: 7px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 5px;
   font-size: 16px;
   background: #43a047;
@@ -32,7 +32,7 @@
 }
 
 .joinChatContainer button:hover {
-  background: #2e7d32;
+  background: #010a02;
 }
 
 .chat-window {

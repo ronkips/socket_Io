@@ -3,11 +3,13 @@ import io from "socket.io-client";
 import "./Message.css";
 import Chat from "./Chat";
 
-const socket = io("http://localhost:5000");
+const socket = io.connect("http://localhost:5000");
 const Message = () => {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
+
+
   const joinRoom = () => {
     if (username !== "" && room !== "") {
       socket.emit("join_room", room);
@@ -22,16 +24,16 @@ const Message = () => {
           <h3>Join a chat</h3>
           <input
             type="text"
-            placeholder="Hillary..."
-            // value={username}
+            placeholder="Enter name"
+            value={username}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
           />
           <input
             type="text"
-            placeholder="Room id..."
-            // value={room}
+            placeholder="Room id"
+            value={room}
             onChange={(e) => {
               setRoom(e.target.value);
             }}
