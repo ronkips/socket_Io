@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
+    console.log(`User with ID ${socket.id} disconnected`);
   });
 });
 const PORT = 5000;

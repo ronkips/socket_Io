@@ -19,10 +19,12 @@ const Chat = ({ socket, username, room }) => {
       await socket.emit("send_message", messageData);
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
+      console.log("*******", messageData);
     }
   };
 
   useEffect(() => {
+    socket.off("receive_message");
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
     });
