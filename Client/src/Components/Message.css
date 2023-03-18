@@ -155,6 +155,7 @@
   font-family: "Open Sans", sans-serif;
 }
 
+
 .chat-window .chat-footer button {
   border: 0;
   display: grid;
@@ -169,7 +170,7 @@
 }
 
 .chat-window .chat-footer button:hover {
-  color: cornflowerblue;
+  color: #f1c40f;
 }
 .hide {
   opacity: 0 !important;
