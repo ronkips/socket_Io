@@ -50,7 +50,6 @@ const Chat = ({ socket, username, room }) => {
         );
       }
 
-      console.log("&&&&&&&&&&", data.message);
     });
   }, [currentMessage, socket]);
 
@@ -61,9 +60,10 @@ const Chat = ({ socket, username, room }) => {
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
-          {messageList.map((messageContent) => {
+          {messageList.map((messageContent, i) => {
             return (
               <div
+                key={i}
                 className="message"
                 id={username === messageContent.author ? "you" : "other"}
               >

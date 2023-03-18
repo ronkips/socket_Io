@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import "./Message.css";
 import Chat from "./Chat";
 
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("https://witty-magnificent-hugger.glitch.me");
 const Message = () => {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
