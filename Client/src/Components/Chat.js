@@ -17,6 +17,9 @@ const Chat = ({ socket, username, room }) => {
           ":" +
           new Date(Date.now()).getMinutes()
       };
+      //phone number
+      const PHONE_REGEX = /(\d{3})?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+      const hasPhoneNumeber = currentMessage.match(PHONE_REGEX);
       // Check if the current message contains a link
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       const hasUrl = currentMessage.match(urlRegex);
@@ -25,6 +28,11 @@ const Chat = ({ socket, username, room }) => {
         messageData.message = currentMessage.replace(
           urlRegex,
           '<a href="$&" target="_blank">$&</a>'
+        );
+      } else if (hasPhoneNumeber) {
+        messageData.message = currentMessage.replace(
+          PHONE_REGEX,
+          "<a href='tel:$&'>$&</a>"
         );
       }
 
@@ -38,6 +46,9 @@ const Chat = ({ socket, username, room }) => {
     socket.off("receive_message");
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
+      //phone number
+      const PHONE_REGEX = /(\d{3})?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+      const hasPhoneNumeber = currentMessage.match(PHONE_REGEX);
 
       // Check if the current message contains a link
       const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -48,8 +59,12 @@ const Chat = ({ socket, username, room }) => {
           urlRegex,
           '<a href="$&" target="_blank">$&</a>'
         );
+      } else if (hasPhoneNumeber) {
+        data.message = currentMessage.replace(
+          PHONE_REGEX,
+          "<a href='tel:$&'>$&</a>"
+        );
       }
-
     });
   }, [currentMessage, socket]);
 
