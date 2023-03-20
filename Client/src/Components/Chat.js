@@ -18,7 +18,7 @@ const Chat = ({ socket, username, room }) => {
           new Date(Date.now()).getMinutes()
       };
       //phone number
-      const PHONE_REGEX = /(\d{3})?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+      const PHONE_REGEX = /^(?:\+254|0)[1-9]\d{8}$/;
       const hasPhoneNumeber = currentMessage.match(PHONE_REGEX);
       // Check if the current message contains a link
       const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -47,12 +47,15 @@ const Chat = ({ socket, username, room }) => {
     socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
       //phone number
-      const PHONE_REGEX = /(\d{3})?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+      const PHONE_REGEX = /^(?:\+254|0)[1-9]\d{8}$/;
+      // const message = messageList[messageList.length];
       const hasPhoneNumeber = currentMessage.match(PHONE_REGEX);
 
       // Check if the current message contains a link
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       const hasUrl = currentMessage.match(urlRegex);
+
+      // console.log(hasUrl, currentMessage, message, messageList);
       // If the message contains a link, add an anchor tag around it
       if (hasUrl) {
         data.message = currentMessage.replace(
